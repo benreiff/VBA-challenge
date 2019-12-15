@@ -1,0 +1,61 @@
+Sub stock_market()
+
+    Dim ticker_symbol As String
+    Dim price_change As Double
+    Dim percent_change As Double
+    Dim total_stock As Double
+    total_stock = 0
+    Dim summary_table_row As Integer
+    summary_table_row = 2
+    Dim open_price As Double
+    open_price = 0
+
+    
+    
+        
+    lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+    
+    For i = 2 To lastrow
+        ' Check if we are still within the same credit card brand, if it is not...
+        ' also mean we reach the end of that ticker
+        If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+        
+            ' Set Ticker symbol value
+            ticker_symbol = Cells(i, 1).Value
+        
+            If open_price = 0 Then
+            open_price = Cells(i, 3).Value
+            End If
+        
+            ' Add to the Brand Total
+            price_change = Cells(i, 6).Value - open_price
+            
+            percent_change = price_change / open_price
+            
+            total_stock = total_stock + Cells(i, 7).Value
+            
+            'Print the Ticker Symbol in the Summary Table
+            Range("J" & summary_table_row).Value = ticker_symbol
+            ' Print the Price Change to the Summary Table
+            Range("K" & summary_table_row).Value = price_change
+            'Print the Percentage Change to the Summary Table
+            Range("L" & summary_table_row).Value = percent_change
+            'Print the Total Stock Value to the Summary Table
+            Range("M" & summary_table_row).Value = total_stock
+            
+            ' Add one to the summary table row
+            summary_table_row = summary_table_row + 1
+            ' If the cell immediately following a row is the same brand...
+            ' not reach the end of ticker
+        Else
+            
+            
+            
+            ' Reset the Brand Total
+            total_stock = 0
+            price_change = 0
+            open_price = 0
+            
+        End If
+    Next i
+End Sub
